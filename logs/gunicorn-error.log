@@ -1,0 +1,274 @@
+[2025-06-14 08:12:26 +0000] [111726] [INFO] Starting gunicorn 23.0.0
+[2025-06-14 08:12:26 +0000] [111726] [INFO] Listening at: http://0.0.0.0:9000 (111726)
+[2025-06-14 08:12:26 +0000] [111726] [INFO] Using worker: sync
+[2025-06-14 08:12:26 +0000] [111728] [INFO] Booting worker with pid: 111728
+[2025-06-14 08:12:27 +0000] [111729] [INFO] Booting worker with pid: 111729
+[2025-06-14 08:12:45 +0000] [111726] [INFO] Handling signal: int
+[2025-06-14 13:12:45 +0500] [111728] [INFO] Worker exiting (pid: 111728)
+[2025-06-14 13:12:45 +0500] [111729] [INFO] Worker exiting (pid: 111729)
+[2025-06-14 08:12:45 +0000] [111726] [INFO] Shutting down: Master
+[2025-06-14 08:12:45 +0000] [111857] [INFO] Starting gunicorn 23.0.0
+[2025-06-14 08:12:45 +0000] [111857] [INFO] Listening at: http://0.0.0.0:9000 (111857)
+[2025-06-14 08:12:45 +0000] [111857] [INFO] Using worker: sync
+[2025-06-14 08:12:45 +0000] [111859] [INFO] Booting worker with pid: 111859
+[2025-06-14 08:12:45 +0000] [111860] [INFO] Booting worker with pid: 111860
+[2025-06-14 09:27:34 +0000] [111857] [INFO] Handling signal: int
+[2025-06-14 14:27:34 +0500] [111859] [INFO] Worker exiting (pid: 111859)
+[2025-06-14 14:27:34 +0500] [111860] [INFO] Worker exiting (pid: 111860)
+[2025-06-14 09:27:34 +0000] [111857] [INFO] Shutting down: Master
+[2025-06-14 09:27:34 +0000] [112428] [INFO] Starting gunicorn 23.0.0
+[2025-06-14 09:27:34 +0000] [112428] [INFO] Listening at: http://0.0.0.0:9000 (112428)
+[2025-06-14 09:27:34 +0000] [112428] [INFO] Using worker: sync
+[2025-06-14 09:27:34 +0000] [112430] [INFO] Booting worker with pid: 112430
+[2025-06-14 09:27:34 +0000] [112431] [INFO] Booting worker with pid: 112431
+[2025-06-14 09:30:36 +0000] [112428] [INFO] Handling signal: int
+[2025-06-14 14:30:36 +0500] [112430] [INFO] Worker exiting (pid: 112430)
+[2025-06-14 14:30:36 +0500] [112431] [INFO] Worker exiting (pid: 112431)
+[2025-06-14 09:30:36 +0000] [112428] [INFO] Shutting down: Master
+[2025-06-14 09:30:36 +0000] [112502] [INFO] Starting gunicorn 23.0.0
+[2025-06-14 09:30:36 +0000] [112502] [INFO] Listening at: http://0.0.0.0:9000 (112502)
+[2025-06-14 09:30:36 +0000] [112502] [INFO] Using worker: sync
+[2025-06-14 09:30:36 +0000] [112504] [INFO] Booting worker with pid: 112504
+[2025-06-14 09:30:36 +0000] [112509] [INFO] Booting worker with pid: 112509
+[2025-06-14 09:31:20 +0000] [112502] [INFO] Handling signal: int
+[2025-06-14 14:31:20 +0500] [112509] [INFO] Worker exiting (pid: 112509)
+[2025-06-14 14:31:20 +0500] [112504] [INFO] Worker exiting (pid: 112504)
+[2025-06-14 09:31:20 +0000] [112502] [INFO] Shutting down: Master
+[2025-06-14 09:31:20 +0000] [112593] [INFO] Starting gunicorn 23.0.0
+[2025-06-14 09:31:20 +0000] [112593] [INFO] Listening at: http://0.0.0.0:9000 (112593)
+[2025-06-14 09:31:20 +0000] [112593] [INFO] Using worker: sync
+[2025-06-14 09:31:20 +0000] [112595] [INFO] Booting worker with pid: 112595
+[2025-06-14 09:31:20 +0000] [112596] [INFO] Booting worker with pid: 112596
+[2025-06-14 09:31:40 +0000] [112593] [INFO] Handling signal: int
+[2025-06-14 14:31:40 +0500] [112596] [INFO] Worker exiting (pid: 112596)
+[2025-06-14 14:31:40 +0500] [112595] [INFO] Worker exiting (pid: 112595)
+[2025-06-14 09:31:40 +0000] [112593] [INFO] Shutting down: Master
+[2025-06-14 09:31:41 +0000] [112659] [INFO] Starting gunicorn 23.0.0
+[2025-06-14 09:31:41 +0000] [112659] [INFO] Listening at: http://0.0.0.0:9000 (112659)
+[2025-06-14 09:31:41 +0000] [112659] [INFO] Using worker: sync
+[2025-06-14 09:31:41 +0000] [112661] [INFO] Booting worker with pid: 112661
+[2025-06-14 09:31:41 +0000] [112662] [INFO] Booting worker with pid: 112662
+[2025-06-14 09:33:49 +0000] [112659] [INFO] Handling signal: int
+[2025-06-14 14:33:49 +0500] [112662] [INFO] Worker exiting (pid: 112662)
+[2025-06-14 14:33:49 +0500] [112661] [INFO] Worker exiting (pid: 112661)
+[2025-06-14 09:33:49 +0000] [112659] [INFO] Shutting down: Master
+[2025-06-14 09:33:49 +0000] [112733] [INFO] Starting gunicorn 23.0.0
+[2025-06-14 09:33:49 +0000] [112733] [INFO] Listening at: http://0.0.0.0:9000 (112733)
+[2025-06-14 09:33:49 +0000] [112733] [INFO] Using worker: sync
+[2025-06-14 09:33:49 +0000] [112735] [INFO] Booting worker with pid: 112735
+[2025-06-14 09:33:49 +0000] [112742] [INFO] Booting worker with pid: 112742
+[2025-06-14 09:34:09 +0000] [112733] [INFO] Handling signal: int
+[2025-06-14 14:34:09 +0500] [112735] [INFO] Worker exiting (pid: 112735)
+[2025-06-14 14:34:09 +0500] [112742] [INFO] Worker exiting (pid: 112742)
+[2025-06-14 09:34:10 +0000] [112733] [INFO] Shutting down: Master
+[2025-06-14 09:34:10 +0000] [112779] [INFO] Starting gunicorn 23.0.0
+[2025-06-14 09:34:10 +0000] [112779] [INFO] Listening at: http://0.0.0.0:9000 (112779)
+[2025-06-14 09:34:10 +0000] [112779] [INFO] Using worker: sync
+[2025-06-14 09:34:10 +0000] [112781] [INFO] Booting worker with pid: 112781
+[2025-06-14 09:34:10 +0000] [112791] [INFO] Booting worker with pid: 112791
+[2025-06-14 09:46:05 +0000] [112779] [INFO] Handling signal: int
+[2025-06-14 14:46:05 +0500] [112781] [INFO] Worker exiting (pid: 112781)
+[2025-06-14 14:46:05 +0500] [112791] [INFO] Worker exiting (pid: 112791)
+[2025-06-14 09:46:05 +0000] [112779] [INFO] Shutting down: Master
+[2025-06-14 09:46:05 +0000] [112932] [INFO] Starting gunicorn 23.0.0
+[2025-06-14 09:46:05 +0000] [112932] [INFO] Listening at: http://0.0.0.0:9000 (112932)
+[2025-06-14 09:46:05 +0000] [112932] [INFO] Using worker: sync
+[2025-06-14 09:46:05 +0000] [112934] [INFO] Booting worker with pid: 112934
+[2025-06-14 09:46:05 +0000] [112935] [INFO] Booting worker with pid: 112935
+[2025-06-14 09:46:26 +0000] [112932] [INFO] Handling signal: int
+[2025-06-14 14:46:26 +0500] [112935] [INFO] Worker exiting (pid: 112935)
+[2025-06-14 14:46:26 +0500] [112934] [INFO] Worker exiting (pid: 112934)
+[2025-06-14 09:46:26 +0000] [112932] [INFO] Shutting down: Master
+[2025-06-14 09:46:26 +0000] [112975] [INFO] Starting gunicorn 23.0.0
+[2025-06-14 09:46:26 +0000] [112975] [INFO] Listening at: http://0.0.0.0:9000 (112975)
+[2025-06-14 09:46:26 +0000] [112975] [INFO] Using worker: sync
+[2025-06-14 09:46:26 +0000] [112977] [INFO] Booting worker with pid: 112977
+[2025-06-14 09:46:26 +0000] [112978] [INFO] Booting worker with pid: 112978
+[2025-06-14 09:49:06 +0000] [112975] [INFO] Handling signal: int
+[2025-06-14 14:49:06 +0500] [112977] [INFO] Worker exiting (pid: 112977)
+[2025-06-14 14:49:06 +0500] [112978] [INFO] Worker exiting (pid: 112978)
+[2025-06-14 09:49:06 +0000] [112975] [INFO] Shutting down: Master
+[2025-06-14 09:49:07 +0000] [113083] [INFO] Starting gunicorn 23.0.0
+[2025-06-14 09:49:07 +0000] [113083] [INFO] Listening at: http://0.0.0.0:9000 (113083)
+[2025-06-14 09:49:07 +0000] [113083] [INFO] Using worker: sync
+[2025-06-14 09:49:07 +0000] [113085] [INFO] Booting worker with pid: 113085
+[2025-06-14 09:49:07 +0000] [113086] [INFO] Booting worker with pid: 113086
+[2025-06-14 09:49:43 +0000] [113083] [INFO] Handling signal: int
+[2025-06-14 14:49:44 +0500] [113086] [INFO] Worker exiting (pid: 113086)
+[2025-06-14 14:49:44 +0500] [113085] [INFO] Worker exiting (pid: 113085)
+[2025-06-14 09:49:44 +0000] [113083] [INFO] Shutting down: Master
+[2025-06-14 09:49:44 +0000] [113123] [INFO] Starting gunicorn 23.0.0
+[2025-06-14 09:49:44 +0000] [113123] [INFO] Listening at: http://0.0.0.0:9000 (113123)
+[2025-06-14 09:49:44 +0000] [113123] [INFO] Using worker: sync
+[2025-06-14 09:49:44 +0000] [113125] [INFO] Booting worker with pid: 113125
+[2025-06-14 09:49:44 +0000] [113126] [INFO] Booting worker with pid: 113126
+[2025-06-14 22:13:28 +0000] [113123] [CRITICAL] WORKER TIMEOUT (pid:113126)
+[2025-06-15 03:13:28 +0500] [113126] [ERROR] Error handling request (no URI read)
+Traceback (most recent call last):
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 133, in handle
+    req = next(parser)
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/http/parser.py", line 41, in __next__
+    self.mesg = self.mesg_class(self.cfg, self.unreader, self.source_addr, self.req_count)
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/http/message.py", line 259, in __init__
+    super().__init__(cfg, unreader, peer_addr)
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/http/message.py", line 60, in __init__
+    unused = self.parse(self.unreader)
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/http/message.py", line 271, in parse
+    self.get_data(unreader, buf, stop=True)
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/http/message.py", line 262, in get_data
+    data = unreader.read()
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/http/unreader.py", line 36, in read
+    d = self.chunk()
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/http/unreader.py", line 63, in chunk
+    return self.sock.recv(self.mxchunk)
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/workers/base.py", line 204, in handle_abort
+    sys.exit(1)
+SystemExit: 1
+[2025-06-15 03:13:28 +0500] [113126] [INFO] Worker exiting (pid: 113126)
+[2025-06-14 22:13:28 +0000] [115382] [INFO] Booting worker with pid: 115382
+Not Found: /
+Not Found: /favicon.ico
+Not Found: /
+Not Found: /favicon.ico
+Not Found: /
+Not Found: /favicon.ico
+Not Found: /
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+[2025-06-16 03:08:07 +0000] [113123] [INFO] Handling signal: int
+[2025-06-16 08:08:07 +0500] [115382] [INFO] Worker exiting (pid: 115382)
+[2025-06-16 08:08:07 +0500] [113125] [INFO] Worker exiting (pid: 113125)
+[2025-06-16 03:08:07 +0000] [113123] [INFO] Shutting down: Master
+[2025-06-16 03:08:07 +0000] [122627] [INFO] Starting gunicorn 23.0.0
+[2025-06-16 03:08:07 +0000] [122627] [INFO] Listening at: http://0.0.0.0:9000 (122627)
+[2025-06-16 03:08:07 +0000] [122627] [INFO] Using worker: sync
+[2025-06-16 03:08:07 +0000] [122629] [INFO] Booting worker with pid: 122629
+[2025-06-16 03:08:07 +0000] [122634] [INFO] Booting worker with pid: 122634
+Not Found: /favicon.ico
+Not Found: /favicon.ico
+[2025-06-16 09:32:15 +0000] [122627] [CRITICAL] WORKER TIMEOUT (pid:122634)
+[2025-06-16 14:32:15 +0500] [122634] [ERROR] Error handling request (no URI read)
+Traceback (most recent call last):
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 133, in handle
+    req = next(parser)
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/http/parser.py", line 41, in __next__
+    self.mesg = self.mesg_class(self.cfg, self.unreader, self.source_addr, self.req_count)
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/http/message.py", line 259, in __init__
+    super().__init__(cfg, unreader, peer_addr)
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/http/message.py", line 60, in __init__
+    unused = self.parse(self.unreader)
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/http/message.py", line 271, in parse
+    self.get_data(unreader, buf, stop=True)
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/http/message.py", line 262, in get_data
+    data = unreader.read()
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/http/unreader.py", line 36, in read
+    d = self.chunk()
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/http/unreader.py", line 63, in chunk
+    return self.sock.recv(self.mxchunk)
+  File "/var/www/bot/venv_bot/lib/python3.10/site-packages/gunicorn/workers/base.py", line 204, in handle_abort
+    sys.exit(1)
+SystemExit: 1
+[2025-06-16 14:32:15 +0500] [122634] [INFO] Worker exiting (pid: 122634)
+[2025-06-16 09:32:15 +0000] [125341] [INFO] Booting worker with pid: 125341
+[2025-06-17 02:27:27 +0000] [122627] [INFO] Handling signal: int
+[2025-06-17 07:27:27 +0500] [125341] [INFO] Worker exiting (pid: 125341)
+[2025-06-17 07:27:27 +0500] [122629] [INFO] Worker exiting (pid: 122629)
+[2025-06-17 02:27:27 +0000] [122627] [INFO] Shutting down: Master
+[2025-06-17 02:27:27 +0000] [130004] [INFO] Starting gunicorn 23.0.0
+[2025-06-17 02:27:27 +0000] [130004] [INFO] Listening at: http://0.0.0.0:9000 (130004)
+[2025-06-17 02:27:27 +0000] [130004] [INFO] Using worker: sync
+[2025-06-17 02:27:27 +0000] [130006] [INFO] Booting worker with pid: 130006
+[2025-06-17 02:27:28 +0000] [130016] [INFO] Booting worker with pid: 130016
+[2025-06-17 02:30:02 +0000] [130004] [INFO] Handling signal: int
+[2025-06-17 07:30:02 +0500] [130006] [INFO] Worker exiting (pid: 130006)
+[2025-06-17 07:30:02 +0500] [130016] [INFO] Worker exiting (pid: 130016)
+[2025-06-17 02:30:02 +0000] [130004] [INFO] Shutting down: Master
+[2025-06-17 02:30:02 +0000] [130193] [INFO] Starting gunicorn 23.0.0
+[2025-06-17 02:30:02 +0000] [130193] [INFO] Listening at: http://0.0.0.0:9000 (130193)
+[2025-06-17 02:30:02 +0000] [130193] [INFO] Using worker: sync
+[2025-06-17 02:30:02 +0000] [130195] [INFO] Booting worker with pid: 130195
+[2025-06-17 02:30:02 +0000] [130196] [INFO] Booting worker with pid: 130196
+[2025-06-17 02:33:38 +0000] [130193] [INFO] Handling signal: int
+[2025-06-17 07:33:38 +0500] [130196] [INFO] Worker exiting (pid: 130196)
+[2025-06-17 07:33:38 +0500] [130195] [INFO] Worker exiting (pid: 130195)
+[2025-06-17 02:33:38 +0000] [130193] [INFO] Shutting down: Master
+[2025-06-17 02:33:38 +0000] [130467] [INFO] Starting gunicorn 23.0.0
+[2025-06-17 02:33:38 +0000] [130467] [INFO] Listening at: http://0.0.0.0:9000 (130467)
+[2025-06-17 02:33:38 +0000] [130467] [INFO] Using worker: sync
+[2025-06-17 02:33:38 +0000] [130469] [INFO] Booting worker with pid: 130469
+[2025-06-17 02:33:38 +0000] [130479] [INFO] Booting worker with pid: 130479
+[2025-06-17 02:40:01 +0000] [130467] [INFO] Handling signal: int
+[2025-06-17 07:40:01 +0500] [130479] [INFO] Worker exiting (pid: 130479)
+[2025-06-17 07:40:01 +0500] [130469] [INFO] Worker exiting (pid: 130469)
+[2025-06-17 02:40:01 +0000] [130467] [INFO] Shutting down: Master
+[2025-06-17 02:40:01 +0000] [130753] [INFO] Starting gunicorn 23.0.0
+[2025-06-17 02:40:01 +0000] [130753] [INFO] Listening at: http://0.0.0.0:9000 (130753)
+[2025-06-17 02:40:01 +0000] [130753] [INFO] Using worker: sync
+[2025-06-17 02:40:01 +0000] [130755] [INFO] Booting worker with pid: 130755
+[2025-06-17 02:40:01 +0000] [130756] [INFO] Booting worker with pid: 130756
+[2025-06-17 02:43:58 +0000] [130753] [INFO] Handling signal: int
+[2025-06-17 07:43:58 +0500] [130755] [INFO] Worker exiting (pid: 130755)
+[2025-06-17 07:43:58 +0500] [130756] [INFO] Worker exiting (pid: 130756)
+[2025-06-17 02:43:58 +0000] [130753] [INFO] Shutting down: Master
+[2025-06-17 02:43:58 +0000] [130860] [INFO] Starting gunicorn 23.0.0
+[2025-06-17 02:43:58 +0000] [130860] [INFO] Listening at: http://0.0.0.0:9000 (130860)
+[2025-06-17 02:43:58 +0000] [130860] [INFO] Using worker: sync
+[2025-06-17 02:43:58 +0000] [130862] [INFO] Booting worker with pid: 130862
+[2025-06-17 02:43:58 +0000] [130863] [INFO] Booting worker with pid: 130863
+[2025-06-17 02:45:45 +0000] [130860] [INFO] Handling signal: int
+[2025-06-17 07:45:45 +0500] [130862] [INFO] Worker exiting (pid: 130862)
+[2025-06-17 07:45:45 +0500] [130863] [INFO] Worker exiting (pid: 130863)
+[2025-06-17 02:45:45 +0000] [130860] [INFO] Shutting down: Master
+[2025-06-17 02:45:45 +0000] [131176] [INFO] Starting gunicorn 23.0.0
+[2025-06-17 02:45:45 +0000] [131176] [INFO] Listening at: http://0.0.0.0:9000 (131176)
+[2025-06-17 02:45:45 +0000] [131176] [INFO] Using worker: sync
+[2025-06-17 02:45:45 +0000] [131178] [INFO] Booting worker with pid: 131178
+[2025-06-17 02:45:45 +0000] [131183] [INFO] Booting worker with pid: 131183
+[2025-06-17 02:47:27 +0000] [131176] [INFO] Handling signal: int
+[2025-06-17 07:47:27 +0500] [131183] [INFO] Worker exiting (pid: 131183)
+[2025-06-17 07:47:27 +0500] [131178] [INFO] Worker exiting (pid: 131178)
+[2025-06-17 02:47:27 +0000] [131176] [INFO] Shutting down: Master
+[2025-06-17 02:47:28 +0000] [131282] [INFO] Starting gunicorn 23.0.0
+[2025-06-17 02:47:28 +0000] [131282] [INFO] Listening at: http://0.0.0.0:9000 (131282)
+[2025-06-17 02:47:28 +0000] [131282] [INFO] Using worker: sync
+[2025-06-17 02:47:28 +0000] [131284] [INFO] Booting worker with pid: 131284
+[2025-06-17 02:47:28 +0000] [131285] [INFO] Booting worker with pid: 131285
+[2025-06-17 02:48:46 +0000] [131282] [INFO] Handling signal: int
+[2025-06-17 07:48:46 +0500] [131284] [INFO] Worker exiting (pid: 131284)
+[2025-06-17 07:48:46 +0500] [131285] [INFO] Worker exiting (pid: 131285)
+[2025-06-17 02:48:46 +0000] [131282] [INFO] Shutting down: Master
+[2025-06-17 02:48:46 +0000] [131456] [INFO] Starting gunicorn 23.0.0
+[2025-06-17 02:48:46 +0000] [131456] [INFO] Listening at: http://0.0.0.0:9000 (131456)
+[2025-06-17 02:48:46 +0000] [131456] [INFO] Using worker: sync
+[2025-06-17 02:48:46 +0000] [131458] [INFO] Booting worker with pid: 131458
+[2025-06-17 02:48:47 +0000] [131459] [INFO] Booting worker with pid: 131459
+[2025-06-17 03:56:36 +0000] [131456] [INFO] Handling signal: int
+[2025-06-17 08:56:36 +0500] [131458] [INFO] Worker exiting (pid: 131458)
+[2025-06-17 08:56:36 +0500] [131459] [INFO] Worker exiting (pid: 131459)
+[2025-06-17 03:56:36 +0000] [131456] [INFO] Shutting down: Master
+[2025-06-17 03:56:37 +0000] [132314] [INFO] Starting gunicorn 23.0.0
+[2025-06-17 03:56:37 +0000] [132314] [INFO] Listening at: http://0.0.0.0:9000 (132314)
+[2025-06-17 03:56:37 +0000] [132314] [INFO] Using worker: sync
+[2025-06-17 03:56:37 +0000] [132316] [INFO] Booting worker with pid: 132316
+[2025-06-17 03:56:37 +0000] [132317] [INFO] Booting worker with pid: 132317
+[2025-06-17 04:05:44 +0000] [132314] [INFO] Handling signal: int
+[2025-06-17 09:05:44 +0500] [132317] [INFO] Worker exiting (pid: 132317)
+[2025-06-17 09:05:44 +0500] [132316] [INFO] Worker exiting (pid: 132316)
+[2025-06-17 04:05:44 +0000] [132314] [INFO] Shutting down: Master
+[2025-06-17 04:05:44 +0000] [132582] [INFO] Starting gunicorn 23.0.0
+[2025-06-17 04:05:45 +0000] [132582] [INFO] Listening at: http://0.0.0.0:9000 (132582)
+[2025-06-17 04:05:45 +0000] [132582] [INFO] Using worker: sync
+[2025-06-17 04:05:45 +0000] [132584] [INFO] Booting worker with pid: 132584
+[2025-06-17 04:05:45 +0000] [132585] [INFO] Booting worker with pid: 132585
+[2025-06-17 04:09:41 +0000] [132582] [INFO] Handling signal: int
+[2025-06-17 09:09:41 +0500] [132584] [INFO] Worker exiting (pid: 132584)
+[2025-06-17 09:09:41 +0500] [132585] [INFO] Worker exiting (pid: 132585)
+[2025-06-17 04:09:42 +0000] [132582] [INFO] Shutting down: Master
+[2025-06-17 04:09:42 +0000] [132721] [INFO] Starting gunicorn 23.0.0
+[2025-06-17 04:09:42 +0000] [132721] [INFO] Listening at: http://0.0.0.0:9000 (132721)
+[2025-06-17 04:09:42 +0000] [132721] [INFO] Using worker: sync
+[2025-06-17 04:09:42 +0000] [132723] [INFO] Booting worker with pid: 132723
+[2025-06-17 04:09:42 +0000] [132724] [INFO] Booting worker with pid: 132724
+Not Found: /media/asd (1).png

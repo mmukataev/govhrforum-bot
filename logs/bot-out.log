@@ -1,0 +1,312 @@
+Optimized content scheduler started
+Optimized content scheduler started
+Sending content ID 10 at 08:14
+
+=== Processing content ID 10 ===
+Found 1 users
+Send results: 1 success, 0 failed
+Sending content ID 1 at 08:18
+
+=== Processing content ID 1 ===
+Found 1 users
+Send results: 1 success, 0 failed
+Sending content ID 4224 at 09:20
+
+=== Processing content ID 4224 ===
+Found 1 users
+Failed to send to user 541772351: Timed out
+Send results: 0 success, 1 failed
+Sending content ID 4144444 at 09:20
+
+=== Processing content ID 4144444 ===
+Found 1 users
+Failed to send to user 541772351: Timed out
+Send results: 0 success, 1 failed
+Sending content ID 4224 at 09:23
+
+=== Processing content ID 4224 ===
+Found 1 users
+Send results: 1 success, 0 failed
+Sending content ID 4144444 at 09:23
+
+=== Processing content ID 4144444 ===
+Found 1 users
+Send results: 1 success, 0 failed
+Optimized content scheduler started
+Sending content ID 41444 at 09:30
+
+=== Processing content ID 41444 ===
+Found 1 users
+Send results: 1 success, 0 failed
+Sending content ID 4144 at 09:31
+
+=== Processing content ID 4144 ===
+Found 1 users
+Send results: 1 success, 0 failed
+Optimized content scheduler started
+Sending content ID 4144 at 09:31
+
+=== Processing content ID 4144 ===
+Found 1 users
+Send results: 1 success, 0 failed
+Optimized content scheduler started
+Optimized content scheduler started
+Optimized content scheduler started
+Optimized content scheduler started
+Optimized content scheduler started
+Optimized content scheduler started
+Optimized content scheduler started
+Optimized content scheduler started
+Optimized content scheduler started
+Sending content ID 1 at 03:50
+
+=== Processing content ID 1 ===
+Found 9 users
+Failed to send to user None: null value in column "telegram_id" of relation "botapp_userbotsettings" violates not-null constraint
+DETAIL:  Failing row contains (11, ru, 2025-06-17 03:50:00.020226+00, null, 6).
+
+Failed to send to user None: null value in column "telegram_id" of relation "botapp_userbotsettings" violates not-null constraint
+DETAIL:  Failing row contains (12, ru, 2025-06-17 03:50:00.027944+00, null, 6).
+
+Failed to send to user None: null value in column "telegram_id" of relation "botapp_userbotsettings" violates not-null constraint
+DETAIL:  Failing row contains (13, ru, 2025-06-17 03:50:00.035513+00, null, 6).
+
+Failed to send to user None: null value in column "telegram_id" of relation "botapp_userbotsettings" violates not-null constraint
+DETAIL:  Failing row contains (14, ru, 2025-06-17 03:50:00.042623+00, null, 6).
+
+Failed to send to user None: null value in column "telegram_id" of relation "botapp_userbotsettings" violates not-null constraint
+DETAIL:  Failing row contains (15, ru, 2025-06-17 03:50:00.049577+00, null, 6).
+
+Failed to send to user None: null value in column "telegram_id" of relation "botapp_userbotsettings" violates not-null constraint
+DETAIL:  Failing row contains (16, ru, 2025-06-17 03:50:00.057409+00, null, 6).
+
+Failed to send to user 3: Chat not found
+Failed to send to user 4: Chat not found
+Failed to send to user 5: Chat not found
+Send results: 0 success, 9 failed
+Optimized content scheduler started
+Sending content ID 5 at 04:00
+
+=== Processing content ID 5 ===
+Found 12 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 3: Chat not found
+Failed to send to user 4: Chat not found
+Failed to send to user 5: Chat not found
+Send results: 8 success, 4 failed
+Optimized content scheduler started
+Creating new user and settings for telegram_id=7214402276
+User created: user_7214402276, created=False
+UserBotSettings created: 7214402276 - Русский
+Sending content ID 19 at 04:55
+
+=== Processing content ID 19 ===
+Found 9 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Send results: 8 success, 1 failed
+Sending content ID 20 at 05:00
+
+=== Processing content ID 20 ===
+Found 9 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Send results: 8 success, 1 failed
+Sending content ID 22 at 05:10
+
+=== Processing content ID 22 ===
+Found 9 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 7 success, 2 failed
+Sending content ID 24 at 05:20
+
+=== Processing content ID 24 ===
+Found 9 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 7 success, 2 failed
+Sending content ID 29 at 05:30
+
+=== Processing content ID 29 ===
+Found 9 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 7 success, 2 failed
+Sending content ID 30 at 05:35
+
+=== Processing content ID 30 ===
+Found 9 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 7 success, 2 failed
+Sending content ID 36 at 05:45
+
+=== Processing content ID 36 ===
+Found 9 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 7 success, 2 failed
+Creating new user and settings for telegram_id=7326884304
+User created: user_7326884304, created=True
+UserBotSettings created: 7326884304 - Русский
+Sending content ID 37 at 05:55
+
+=== Processing content ID 37 ===
+Found 10 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 8 success, 2 failed
+Creating new user and settings for telegram_id=727040183
+User created: user_727040183, created=True
+UserBotSettings created: 727040183 - Русский
+Sending content ID 34 at 06:05
+
+=== Processing content ID 34 ===
+Found 11 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 2 failed
+Sending content ID 35 at 06:10
+
+=== Processing content ID 35 ===
+Found 11 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 2 failed
+Sending content ID 32 at 06:15
+
+=== Processing content ID 32 ===
+Found 11 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 2 failed
+Sending content ID 33 at 06:20
+
+=== Processing content ID 33 ===
+Found 11 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 2 failed
+Sending content ID 31 at 06:25
+
+=== Processing content ID 31 ===
+Found 11 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 2 failed
+Sending content ID 69 at 06:30
+
+=== Processing content ID 69 ===
+Found 11 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 2 failed
+Sending content ID 70 at 06:35
+
+=== Processing content ID 70 ===
+Found 11 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 2 failed
+Sending content ID 74 at 06:45
+
+=== Processing content ID 74 ===
+Found 11 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 2 failed
+Sending content ID 76 at 06:55
+
+=== Processing content ID 76 ===
+Found 11 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 2 failed
+Sending content ID 78 at 07:05
+
+=== Processing content ID 78 ===
+Found 11 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 2 failed
+Sending content ID 80 at 07:15
+
+=== Processing content ID 80 ===
+Found 11 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 2 failed
+Sending content ID 82 at 07:20
+
+=== Processing content ID 82 ===
+Found 11 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 2 failed
+Sending content ID 71 at 07:25
+
+=== Processing content ID 71 ===
+Found 11 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 2 failed
+Creating new user and settings for telegram_id=1745777346
+User created: user_1745777346, created=True
+UserBotSettings created: 1745777346 - Русский
+Sending content ID 190 at 07:30
+
+=== Processing content ID 190 ===
+Found 12 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 10 success, 2 failed
+Sending content ID 200 at 08:00
+
+=== Processing content ID 200 ===
+Found 12 users
+Failed to send to user 897602936: Timed out
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 3 failed
+Sending content ID 249 at 09:25
+
+=== Processing content ID 249 ===
+Found 12 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 10 success, 2 failed
+Sending content ID 250 at 09:30
+
+=== Processing content ID 250 ===
+Found 12 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 10 success, 2 failed
+Sending content ID 255 at 09:40
+
+=== Processing content ID 255 ===
+Found 12 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 10 success, 2 failed
+Sending content ID 260 at 09:50
+
+=== Processing content ID 260 ===
+Found 12 users
+Failed to send to user 897602936: Timed out
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 9 success, 3 failed
+Sending content ID 261 at 10:00
+
+=== Processing content ID 261 ===
+Found 12 users
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
+Send results: 10 success, 2 failed
+Sending content ID 262 at 10:10
+
+=== Processing content ID 262 ===
+Found 12 users
+Failed to send to user 897602936: Timed out
+Failed to send to user 1753603074: Forbidden: bot was blocked by the user
+Failed to send to user 379412683: Forbidden: bot was blocked by the user
