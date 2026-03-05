@@ -3,6 +3,7 @@ import os
 import asyncio
 from datetime import datetime
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'telegrambot.settings')
 import django
 django.setup()

@@ -86,7 +86,7 @@ DATABASES = {
         'NAME': 'govhrdb',  # Имя базы данных
         'USER': 'govhruser',  # Имя пользователя (или 'root', если используете root)
         'PASSWORD': 'Madi8586',  # Пароль пользователя
-        'HOST': 'localhost',  # Хост (оставьте localhost, если база данных на той же машине)
+        'HOST': '127.0.0.1', 
         'PORT': '5432',  # Порт PostgreSQL
     }
 }
