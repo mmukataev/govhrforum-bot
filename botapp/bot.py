@@ -11,7 +11,7 @@ django.setup()
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import MessageHandler, filters
 
-
+from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from botapp.models import Content, UserBotSettings, Feedback
 from django.contrib.auth import get_user_model
@@ -39,7 +39,7 @@ async def cleanup_tracker():
     """Очистка трекера от старых записей"""
     while True:
         await asyncio.sleep(3600)  # Очищаем каждый час
-        now = datetime.now()
+        now = timezone.localtime(timezone.now())
         async with last_content_lock:
             # Удаляем записи старше 7 дней
             to_delete = [k for k, v in last_content_tracker.items() 
@@ -200,7 +200,7 @@ async def send_text_message(application, content, user_id, message):
 
 async def send_content_to_all_users(application, content):
     """Отправляет контент всем пользователям"""
-    now = datetime.now()
+    now = timezone.localtime(timezone.now())
     print(f"\n=== Processing content ID {content['id']} ===")
     
     # Получаем всех пользователей из базы данных
@@ -225,7 +225,7 @@ async def send_content_to_all_users(application, content):
 
 async def get_content_to_send():
     """Получает контент для отправки из базы данных"""
-    now = datetime.now()
+    now = timezone.localtime(timezone.now())
     current_date = now.date()
     current_hour = now.hour
     current_minute = now.minute
@@ -419,7 +419,8 @@ async def handle_inline_feedback(update: Update, context: ContextTypes.DEFAULT_T
     await context.bot.send_message(chat_id=query.message.chat_id, text=question)
 
 def main():
-    application = ApplicationBuilder().token("7606408596:AAHr_-mSFqscilp_-SHQxqioRXOrpYe9Sf0").build()
+    # application = ApplicationBuilder().token("7606408596:AAHr_-mSFqscilp_-SHQxqioRXOrpYe9Sf0").build()
+    application = ApplicationBuilder().token("8904957569:AAEvSVLno_2Qje82SNpLdt2hCXXKFKz1FEY").build()
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(language_selection, pattern="^lang_"))
