@@ -174,7 +174,9 @@ async def send_content_to_user(application, content, user_id):
         else:
             message = f"<b>{content['title_en']}</b>\n\n{content['text_en']}"
 
-        if content_obj.is_session_select_message:
+        if content.get("is_session_select_message"):
+            settings = await get_or_create_user_settings(user_id)
+
             reply_markup = await get_sessions_keyboard(settings.language)
 
             await application.bot.send_message(
@@ -278,7 +280,7 @@ async def send_content_to_all_users(application, content):
 
     user_ids = set()
 
-    async for user in users:
+    async for user in UserBotSettings.objects.all().aiterator():
         # 2. если у контента есть session
         if content_obj.selected_session_id is not None:
             if user.selected_session_id == content_obj.selected_session_id:
