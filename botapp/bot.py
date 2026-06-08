@@ -13,7 +13,7 @@ from telegram.ext import MessageHandler, filters
 
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
-from botapp.models import Content, UserBotSettings, Feedback
+from botapp.models import Content, UserBotSettings, Feedback, Sessions
 from django.contrib.auth import get_user_model
 
 
@@ -75,24 +75,24 @@ async def get_or_create_user_settings(user_id):
         print(f"UserBotSettings created: {settings}")
     return settings
 
-async def get_sessions_keyboard():
+async def get_sessions_keyboard(language="ru"):
     keyboard = []
-    row = []
 
     async for session in Sessions.objects.all().aiterator():
-        row.append(
+
+        if language == "kz":
+            title = session.title_kz
+        elif language == "en":
+            title = session.title_en
+        else:
+            title = session.title
+
+        keyboard.append([
             InlineKeyboardButton(
-                session.title,
+                title,
                 callback_data=f"session_{session.id}"
             )
-        )
-
-        if len(row) == 2:
-            keyboard.append(row)
-            row = []
-
-    if row:
-        keyboard.append(row)
+        ])
 
     return InlineKeyboardMarkup(keyboard)
 
@@ -174,8 +174,8 @@ async def send_content_to_user(application, content, user_id):
         else:
             message = f"<b>{content['title_en']}</b>\n\n{content['text_en']}"
 
-        if content['type'] == 'select_session':
-            reply_markup = await get_sessions_keyboard()
+        if content_obj.is_session_select_message:
+            reply_markup = await get_sessions_keyboard(settings.language)
 
             await application.bot.send_message(
                 chat_id=user_id,
