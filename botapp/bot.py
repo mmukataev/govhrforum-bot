@@ -76,12 +76,10 @@ async def get_or_create_user_settings(user_id):
     return settings
 
 async def get_sessions_keyboard():
-    async for session in Sessions.objects.all().aiterator():
-
     keyboard = []
     row = []
 
-    async for session in sessions:
+    async for session in Sessions.objects.all().aiterator():
         row.append(
             InlineKeyboardButton(
                 session.title,
