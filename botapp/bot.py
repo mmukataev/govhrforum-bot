@@ -270,32 +270,35 @@ async def send_text_message(application, content, user_id, message):
     
 #     print(f"Send results: {success_count} success, {fail_count} failed")
 async def send_content_to_all_users(application, content):
-    print(f"\n=== Processing content ID {content['id']} ===")
-
     content_obj = await Content.objects.select_related("selected_session").aget(
         content_id=content["id"]
     )
 
-    users = UserBotSettings.objects.select_related("selected_session")
+    users = UserBotSettings.objects.all()
 
-    user_ids = set()
+    user_ids = []
 
     async for user in users:
-        # 🔥 1. SELECT SESSION TYPE -> ВСЕМ
+        # 1. SELECT SESSION FLOW (показывается всем)
         if content_obj.content_type == "select_session":
-            user_ids.add(user.telegram_id)
+            user_ids.append(user.telegram_id)
             continue
 
-        # 🔥 2. если у контента есть session
-        if content_obj.selected_session_id:
-            if user.selected_session_id == content_obj.selected_session_id:
-                user_ids.add(user.telegram_id)
+        # 2. USER НЕ ВЫБРАЛ SESSION
+        if user.selected_session_id is None:
+            if content_obj.selected_session_id is None:
+                user_ids.append(user.telegram_id)
 
-        # 🔥 3. если у контента НЕТ session -> всем
+        # 3. USER ВЫБРАЛ SESSION
         else:
-            user_ids.add(user.telegram_id)
+            if (
+                content_obj.selected_session_id is None
+                or content_obj.selected_session_id == user.selected_session_id
+            ):
+                user_ids.append(user.telegram_id)
 
-    for user_id in user_ids:
+    # отправка
+    for user_id in set(user_ids):
         await send_content_to_user(application, content, user_id)
 
 async def get_content_to_send():
