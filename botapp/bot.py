@@ -313,6 +313,7 @@ async def get_content_to_send():
             'title_kz': content.title_kz,
             'title_en': content.title_en,
             'selected_session_id': content.selected_session_id,
+            'is_session_select_message': content.is_session_select_message,
             'text': content.text,
             'text_kz': content.text_kz,
             'text_en': content.text_en,
