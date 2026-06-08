@@ -281,9 +281,8 @@ async def send_content_to_all_users(application, content):
     async for user in users:
 
         # 1. SELECT SESSION — ВСЕМ ВСЕГДА (первый шаг onboarding)
-        if content_obj.content_type == "select_session":
-            user_ids.add(user.telegram_id)
-            continue
+        if content_obj.is_session_select_message:
+            user_ids = UserBotSettings.objects.values_list("telegram_id", flat=True)
 
         # 2. если у контента есть session
         if content_obj.selected_session_id is not None:
@@ -296,7 +295,7 @@ async def send_content_to_all_users(application, content):
 
     for user_id in user_ids:
         await send_content_to_user(application, content, user_id)
-        
+
 async def get_content_to_send():
     """Получает контент для отправки из базы данных"""
     now = timezone.localtime(timezone.now())

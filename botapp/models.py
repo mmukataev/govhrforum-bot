@@ -46,7 +46,7 @@ class Content(models.Model):
         ('info', 'Информация'),
         ('news', 'Новость'),
         ('ask', 'ask'),
-        ('select_session', 'Выбор сессии'),
+        # ('select_session', 'Выбор сессии'),
     ]
     
     content_id = models.IntegerField(unique=True)
@@ -59,6 +59,8 @@ class Content(models.Model):
         blank=True,
         related_name='contents'
     )
+
+    is_session_select_message = models.BooleanField(default=False)
 
     title = models.CharField(max_length=255)
     title_kz = models.CharField(max_length=255)
