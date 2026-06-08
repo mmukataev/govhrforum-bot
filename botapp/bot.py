@@ -279,11 +279,6 @@ async def send_content_to_all_users(application, content):
     user_ids = set()
 
     async for user in users:
-
-        # 1. SELECT SESSION — ВСЕМ ВСЕГДА (первый шаг onboarding)
-        if content_obj.is_session_select_message:
-            user_ids = UserBotSettings.objects.values_list("telegram_id", flat=True)
-
         # 2. если у контента есть session
         if content_obj.selected_session_id is not None:
             if user.selected_session_id == content_obj.selected_session_id:
