@@ -50,7 +50,7 @@ class Content(models.Model):
     ]
     
     content_id = models.IntegerField(unique=True)
-    content_type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    content_type = models.CharField(max_length=25, choices=TYPE_CHOICES)
 
     selected_session = models.ForeignKey(
         Sessions,
