@@ -20,7 +20,7 @@ class ContentAdmin(admin.ModelAdmin):
     
     fieldsets = (
         (None, {
-            'fields': ('content_id', 'content_type', 'send_time')
+            'fields': ('content_id', 'content_type', 'send_time', 'selected_session')
         }),
         ('Русский контент', {
             'fields': ('title', 'text')
@@ -47,7 +47,7 @@ class UserBotSettingsAdmin(admin.ModelAdmin):
     
     fieldsets = (
         (None, {
-            'fields': ('user', 'language')
+            'fields': ('user', 'language', 'selected_session')
         }),
         ('Дополнительная информация', {
             'fields': ('last_interaction',),
