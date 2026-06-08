@@ -1,7 +1,7 @@
 # botapp/admin.py
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Content, UserBotSettings, Feedback
+from .models import Content, UserBotSettings, Feedback, Sessions
 
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
@@ -60,3 +60,8 @@ class FeedbackAdmin(admin.ModelAdmin):
     list_display = ('user', 'content', 'is_positive', 'created_at')
     list_filter = ('is_positive', 'created_at')
     search_fields = ('user__username', 'content__title', 'details')
+
+@admin.register(Sessions)
+class SessionsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'title_kz', 'title_en')
+    search_fields = ('title', 'title_kz', 'title_en')

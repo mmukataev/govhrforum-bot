@@ -75,8 +75,46 @@ async def get_or_create_user_settings(user_id):
         print(f"UserBotSettings created: {settings}")
     return settings
 
+async def get_sessions_keyboard():
+    sessions = await Sessions.objects.all()
 
+    keyboard = []
+    row = []
 
+    async for session in sessions:
+        row.append(
+            InlineKeyboardButton(
+                session.title,
+                callback_data=f"session_{session.id}"
+            )
+        )
+
+        if len(row) == 2:
+            keyboard.append(row)
+            row = []
+
+    if row:
+        keyboard.append(row)
+
+    return InlineKeyboardMarkup(keyboard)
+
+async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+
+    user_id = query.from_user.id
+    session_id = int(query.data.split("_")[1])
+
+    settings = await get_or_create_user_settings(user_id)
+
+    session = await Sessions.objects.aget(id=session_id)
+
+    settings.selected_session = session
+    await settings.asave()
+
+    await query.edit_message_text(
+        f"✅ Сессия выбрана: {session.title}"
+    )
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
@@ -137,7 +175,18 @@ async def send_content_to_user(application, content, user_id):
             message = f"<b>{content['title_kz']}</b>\n\n{content['text_kz']}"
         else:
             message = f"<b>{content['title_en']}</b>\n\n{content['text_en']}"
-        
+
+        if content['type'] == 'select_session':
+            reply_markup = await get_sessions_keyboard()
+
+            await application.bot.send_message(
+                chat_id=user_id,
+                text=message,
+                parse_mode="HTML",
+                reply_markup=reply_markup
+            )
+            return True
+    
         if content.get('image'):
             image_path = content['image']
             if os.path.exists(image_path):
@@ -198,29 +247,73 @@ async def send_text_message(application, content, user_id, message):
 
 
 
-async def send_content_to_all_users(application, content):
-    """Отправляет контент всем пользователям"""
-    now = timezone.localtime(timezone.now())
-    print(f"\n=== Processing content ID {content['id']} ===")
+# async def send_content_to_all_users(application, content):
+#     """Отправляет контент всем пользователям"""
+#     now = timezone.localtime(timezone.now())
+#     print(f"\n=== Processing content ID {content['id']} ===")
     
-    # Получаем всех пользователей из базы данных
-    user_ids = []
-    async for settings in UserBotSettings.objects.all().aiterator():
-        user_ids.append(settings.telegram_id)
+#     # Получаем всех пользователей из базы данных
+#     user_ids = []
+#     async for settings in UserBotSettings.objects.all().aiterator():
+#         user_ids.append(settings.telegram_id)
 
     
-    print(f"Found {len(user_ids)} users")
+#     print(f"Found {len(user_ids)} users")
     
+#     success_count = 0
+#     fail_count = 0
+    
+#     for user_id in user_ids:
+#         result = await send_content_to_user(application, content, user_id)
+#         if result:
+#             success_count += 1
+#         else:
+#             fail_count += 1
+    
+#     print(f"Send results: {success_count} success, {fail_count} failed")
+async def send_content_to_all_users(application, content):
+    """Отправляет контент всем пользователям с учетом session логики"""
+
+    print(f"\n=== Processing content ID {content['id']} ===")
+
+    # если у контента есть session
+    content_session_id = content.get("selected_session_id")
+
+    # все пользователи
+    users = UserBotSettings.objects.all().select_related("selected_session")
+
+    # fallback session (самая первая)
+    fallback_session = await Sessions.objects.order_by("id").afirst()
+
+    user_ids = []
+
+    async for user in users:
+        user_session_id = user.selected_session_id
+
+        # CASE 1: контент с session
+        if content_session_id:
+            if user_session_id == content_session_id:
+                user_ids.append(user.telegram_id)
+
+        # CASE 2: у пользователя нет session
+        else:
+            user_ids.append(user.telegram_id)
+
+        # CASE 3: user без session → даём fallback content
+        if content_session_id and user_session_id is None:
+            if fallback_session and content_session_id == fallback_session.id:
+                user_ids.append(user.telegram_id)
+
     success_count = 0
     fail_count = 0
-    
-    for user_id in user_ids:
+
+    for user_id in set(user_ids):  # убираем дубли
         result = await send_content_to_user(application, content, user_id)
         if result:
             success_count += 1
         else:
             fail_count += 1
-    
+
     print(f"Send results: {success_count} success, {fail_count} failed")
 
 async def get_content_to_send():
@@ -242,6 +335,7 @@ async def get_content_to_send():
             'title': content.title,
             'title_kz': content.title_kz,
             'title_en': content.title_en,
+            'selected_session_id': content.selected_session_id,
             'text': content.text,
             'text_kz': content.text_kz,
             'text_en': content.text_en,
@@ -423,6 +517,7 @@ def main():
     application = ApplicationBuilder().token("8904957569:AAEvSVLno_2Qje82SNpLdt2hCXXKFKz1FEY").build()
 
     application.add_handler(CommandHandler("start", start))
+    application.add_handler(CallbackQueryHandler(handle_session_select, pattern="^session_"))
     application.add_handler(CallbackQueryHandler(language_selection, pattern="^lang_"))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_feedback))
     application.add_handler(CallbackQueryHandler(handle_inline_feedback, pattern="^feedback_"))
