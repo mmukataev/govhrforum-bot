@@ -20,7 +20,7 @@ class ContentAdmin(admin.ModelAdmin):
     
     fieldsets = (
         (None, {
-            'fields': ('content_id', 'content_type', 'send_time', 'selected_session')
+            'fields': ('content_id', 'content_type', 'send_time', 'selected_session', 'is_session_select_message')
         }),
         ('Русский контент', {
             'fields': ('title', 'text')
