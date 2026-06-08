@@ -76,7 +76,7 @@ async def get_or_create_user_settings(user_id):
     return settings
 
 async def get_sessions_keyboard():
-    sessions = await Sessions.objects.all()
+    async for session in Sessions.objects.all().aiterator():
 
     keyboard = []
     row = []
@@ -283,26 +283,22 @@ async def send_content_to_all_users(application, content):
     user_ids = set()
 
     async for user in users:
-        # CASE 1: контент привязан к session
+        # 🔥 1. SELECT SESSION TYPE -> ВСЕМ
+        if content_obj.content_type == "select_session":
+            user_ids.add(user.telegram_id)
+            continue
+
+        # 🔥 2. если у контента есть session
         if content_obj.selected_session_id:
             if user.selected_session_id == content_obj.selected_session_id:
                 user_ids.add(user.telegram_id)
 
-        # CASE 2: контент общий
+        # 🔥 3. если у контента НЕТ session -> всем
         else:
             user_ids.add(user.telegram_id)
 
-    success_count = 0
-    fail_count = 0
-
     for user_id in user_ids:
-        result = await send_content_to_user(application, content, user_id)
-        if result:
-            success_count += 1
-        else:
-            fail_count += 1
-
-    print(f"Send results: {success_count} success, {fail_count} failed")
+        await send_content_to_user(application, content, user_id)
 
 async def get_content_to_send():
     """Получает контент для отправки из базы данных"""
