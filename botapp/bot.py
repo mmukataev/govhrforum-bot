@@ -111,7 +111,7 @@ async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TY
     await settings.asave()
 
     await query.edit_message_text(
-        f"✅ Сессия выбрана: {session.title}"
+        f"✅{session.title}"
     )
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
