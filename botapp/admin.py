@@ -5,7 +5,7 @@ from .models import Content, UserBotSettings, Feedback, Sessions
 
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
-    list_display = ('content_id', 'image_preview', 'title', 'content_type', 'send_time')
+    list_display = ('content_id', 'image_preview', 'title', 'content_type', 'selected_session', 'send_time')
     list_filter = ('content_type',)
     search_fields = ('title', 'text', 'title_kz', 'text_kz', 'title_en', 'text_en')
     ordering = ('-send_time',)
@@ -39,7 +39,7 @@ class ContentAdmin(admin.ModelAdmin):
 
 @admin.register(UserBotSettings)
 class UserBotSettingsAdmin(admin.ModelAdmin):
-    list_display = ('telegram_id', 'language', 'last_interaction')
+    list_display = ('telegram_id', 'language', 'selected_session', 'last_interaction')
     list_filter = ('language',)
     search_fields = ('user__username',)
     readonly_fields = ('last_interaction',)
