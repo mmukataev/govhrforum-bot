@@ -272,42 +272,30 @@ async def send_text_message(application, content, user_id, message):
     
 #     print(f"Send results: {success_count} success, {fail_count} failed")
 async def send_content_to_all_users(application, content):
-    """Отправляет контент всем пользователям с учетом session логики"""
-
     print(f"\n=== Processing content ID {content['id']} ===")
 
-    # если у контента есть session
-    content_session_id = content.get("selected_session_id")
+    content_obj = await Content.objects.select_related("selected_session").aget(
+        content_id=content["id"]
+    )
 
-    # все пользователи
-    users = UserBotSettings.objects.all().select_related("selected_session")
+    users = UserBotSettings.objects.select_related("selected_session")
 
-    # fallback session (самая первая)
-    fallback_session = await Sessions.objects.order_by("id").afirst()
-
-    user_ids = []
+    user_ids = set()
 
     async for user in users:
-        user_session_id = user.selected_session_id
+        # CASE 1: контент привязан к session
+        if content_obj.selected_session_id:
+            if user.selected_session_id == content_obj.selected_session_id:
+                user_ids.add(user.telegram_id)
 
-        # CASE 1: контент с session
-        if content_session_id:
-            if user_session_id == content_session_id:
-                user_ids.append(user.telegram_id)
-
-        # CASE 2: у пользователя нет session
+        # CASE 2: контент общий
         else:
-            user_ids.append(user.telegram_id)
-
-        # CASE 3: user без session → даём fallback content
-        if content_session_id and user_session_id is None:
-            if fallback_session and content_session_id == fallback_session.id:
-                user_ids.append(user.telegram_id)
+            user_ids.add(user.telegram_id)
 
     success_count = 0
     fail_count = 0
 
-    for user_id in set(user_ids):  # убираем дубли
+    for user_id in user_ids:
         result = await send_content_to_user(application, content, user_id)
         if result:
             success_count += 1
