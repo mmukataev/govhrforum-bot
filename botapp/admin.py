@@ -27,7 +27,7 @@ class ContentAdmin(admin.ModelAdmin):
     date_hierarchy = 'send_time'
     readonly_fields = ('image_preview',)
 
-    actions = [set_today_send_time]
+    actions = [set_today_keep_time]
 
     # asdasdasd
     
