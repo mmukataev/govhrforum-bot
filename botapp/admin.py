@@ -5,14 +5,19 @@ from .models import Content, UserBotSettings, Feedback, Sessions
 from django.utils import timezone
 from datetime import datetime
 
-@admin.action(description="Поставить сегодняшнюю дату (send_time)")
-def set_today_send_time(modeladmin, request, queryset):
-    today = timezone.now().date()
-    dt = datetime.combine(today, datetime.min.time())
-    dt = timezone.make_aware(dt)
+@admin.action(description="Поставить сегодняшнюю дату (время сохранить)")
+def set_today_keep_time(modeladmin, request, queryset):
+    today = timezone.localdate()
 
-    queryset.update(send_time=dt)
-    
+    for obj in queryset:
+        old_time = obj.send_time.time() if obj.send_time else timezone.now().time()
+
+        obj.send_time = timezone.make_aware(
+            timezone.datetime.combine(today, old_time)
+        )
+
+    modeladmin.save_queryset(request, queryset)
+
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
     list_display = ('content_id', 'image_preview', 'title', 'content_type', 'display_sessions',  'send_time')
