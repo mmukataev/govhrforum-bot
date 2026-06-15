@@ -5,7 +5,7 @@ from .models import Content, UserBotSettings, Feedback, Sessions
 
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
-    list_display = ('content_id', 'image_preview', 'title', 'content_type', 'selected_session', 'send_time')
+    list_display = ('content_id', 'image_preview', 'title', 'content_type', 'display_sessions',  'send_time')
     list_filter = ('content_type',)
     search_fields = ('title', 'text', 'title_kz', 'text_kz', 'title_en', 'text_en')
     ordering = ('-send_time',)
@@ -20,7 +20,7 @@ class ContentAdmin(admin.ModelAdmin):
     
     fieldsets = (
         (None, {
-            'fields': ('content_id', 'content_type', 'send_time', 'selected_session', 'is_session_select_message')
+            'fields': ('content_id', 'content_type', 'send_time', 'selected_session', 'selected_sessions', 'is_session_select_message')
         }),
         ('Русский контент', {
             'fields': ('title', 'text')
@@ -36,6 +36,13 @@ class ContentAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
+
+    def display_sessions(self, obj):
+        return ", ".join(
+            obj.selected_sessions.values_list("title", flat=True)
+        )
+
+    display_sessions.short_description = "Сессии"
 
 @admin.register(UserBotSettings)
 class UserBotSettingsAdmin(admin.ModelAdmin):
