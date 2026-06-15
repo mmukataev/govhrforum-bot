@@ -2,7 +2,17 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import Content, UserBotSettings, Feedback, Sessions
+from django.utils import timezone
+from datetime import datetime
 
+@admin.action(description="Поставить сегодняшнюю дату (send_time)")
+def set_today_send_time(modeladmin, request, queryset):
+    today = timezone.now().date()
+    dt = datetime.combine(today, datetime.min.time())
+    dt = timezone.make_aware(dt)
+
+    queryset.update(send_time=dt)
+    
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
     list_display = ('content_id', 'image_preview', 'title', 'content_type', 'display_sessions',  'send_time')
@@ -11,6 +21,8 @@ class ContentAdmin(admin.ModelAdmin):
     ordering = ('-send_time',)
     date_hierarchy = 'send_time'
     readonly_fields = ('image_preview',)
+
+    actions = [set_today_send_time]
 
     # asdasdasd
     
