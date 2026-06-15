@@ -75,10 +75,10 @@ async def get_or_create_user_settings(user_id):
         print(f"UserBotSettings created: {settings}")
     return settings
 
-async def get_sessions_keyboard(language="ru"):
+async def get_sessions_keyboard(content_obj, language="ru"):
     keyboard = []
 
-    async for session in Sessions.objects.all().aiterator():
+    async for session in content_obj.selected_sessions.all().aiterator():
 
         if language == "kz":
             title = session.title_kz
@@ -177,7 +177,14 @@ async def send_content_to_user(application, content, user_id):
         if content.get("is_session_select_message"):
             settings = await get_or_create_user_settings(user_id)
 
-            reply_markup = await get_sessions_keyboard(settings.language)
+            content_obj = await Content.objects.aget(
+                content_id=content["id"]
+            )
+
+            reply_markup = await get_sessions_keyboard(
+                content_obj,
+                settings.language
+            )
 
             await application.bot.send_message(
                 chat_id=user_id,
@@ -281,7 +288,7 @@ async def send_content_to_all_users(application, content):
         f"is_session_select_message={content_obj.is_session_select_message}, "
         f"session={content_obj.selected_session_id}"
     )
-    
+
     user_ids = set()
 
     async for user in UserBotSettings.objects.all().aiterator():

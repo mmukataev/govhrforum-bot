@@ -61,6 +61,11 @@ class Content(models.Model):
     )
 
     is_session_select_message = models.BooleanField(default=False)
+    selected_sessions = models.ManyToManyField(
+        Sessions,
+        blank=True,
+        related_name="contents_for_choise"
+    )
 
     title = models.CharField(max_length=255)
     title_kz = models.CharField(max_length=255)
