@@ -66,6 +66,7 @@ class Content(models.Model):
         blank=True,
         related_name="contents_for_choise"
     )
+    # asdasdasd
 
     title = models.CharField(max_length=255)
     title_kz = models.CharField(max_length=255)
