@@ -37,8 +37,8 @@ class ContentAdmin(admin.ModelAdmin):
                 '''
                 <img src="{}"
                     style="
-                        width:150px;
-                        height:150px;
+                        width:100px;
+                        height:100px;
                         object-fit:cover;
                         border-radius:50%;
                     "/>
