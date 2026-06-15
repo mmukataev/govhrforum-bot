@@ -96,6 +96,31 @@ async def get_sessions_keyboard(content_obj, language="ru"):
 
     return InlineKeyboardMarkup(keyboard)
 
+async def handle_change_session(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+
+    user_id = query.from_user.id
+    content_id = query.data.split("_")[2]
+
+    settings = await get_or_create_user_settings(user_id)
+
+    content_obj = await Content.objects.aget(content_id=content_id)
+
+    keyboard = await get_sessions_keyboard(content_obj, settings.language)
+
+    if settings.language == "kz":
+        text = "Сессияны таңдаңыз:"
+    elif settings.language == "en":
+        text = "Choose a session:"
+    else:
+        text = "Выберите сессию:"
+
+    await query.edit_message_text(
+        text=text,
+        reply_markup=keyboard
+    )
+
 async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
@@ -110,8 +135,18 @@ async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TY
     settings.selected_session = session
     await settings.asave()
 
+    # await query.edit_message_text(
+    #     f"✅{session.title}"
+    # )
+    content_obj = await Content.objects.aget(
+        selected_sessions__id=session.id
+    )
+
+    keyboard = get_change_session_keyboard(content_obj, settings.language)
+
     await query.edit_message_text(
-        f"✅{session.title}"
+        f"✅ {session.title}",
+        reply_markup=keyboard
     )
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -146,6 +181,23 @@ async def language_selection(update: Update, context: ContextTypes.DEFAULT_TYPE)
         message = "✅ Great! Interface language switched to English 🇬🇧"
 
     await query.edit_message_text(text=message)
+
+def get_change_session_keyboard(content_obj, language="ru"):
+    if language == "kz":
+        text = "🔄 Сессияны ауыстыру"
+    elif language == "en":
+        text = "🔄 Change session"
+    else:
+        text = "🔄 Сменить сессию"
+
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton(
+                text,
+                callback_data=f"change_session_{content_obj.content_id}"
+            )
+        ]
+    ])
 
 async def send_content_to_user(application, content, user_id):
     """Отправляет контент одному пользователю с проверкой дублирования"""
@@ -512,7 +564,9 @@ def main():
     application.add_handler(CallbackQueryHandler(language_selection, pattern="^lang_"))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_feedback))
     application.add_handler(CallbackQueryHandler(handle_inline_feedback, pattern="^feedback_"))
-
+    application.add_handler(
+        CallbackQueryHandler(handle_change_session, pattern="^change_session_")
+    )
 
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
