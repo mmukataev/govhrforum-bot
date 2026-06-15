@@ -11,6 +11,8 @@ class ContentAdmin(admin.ModelAdmin):
     ordering = ('-send_time',)
     date_hierarchy = 'send_time'
     readonly_fields = ('image_preview',)
+
+    # asdasdasd
     
     def image_preview(self, obj):
         if obj.image:
