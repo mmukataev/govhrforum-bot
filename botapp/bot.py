@@ -272,21 +272,27 @@ async def send_text_message(application, content, user_id, message):
     
 #     print(f"Send results: {success_count} success, {fail_count} failed")
 async def send_content_to_all_users(application, content):
-    content_obj = await Content.objects.select_related("selected_session").aget(
-        content_id=content["id"]
+    content_obj = await Content.objects.select_related(
+        "selected_session"
+    ).aget(content_id=content["id"])
+
+    print(
+        f"Content={content_obj.content_id}, "
+        f"is_session_select_message={content_obj.is_session_select_message}, "
+        f"session={content_obj.selected_session_id}"
     )
-
-    users = UserBotSettings.objects.all()
-
+    
     user_ids = set()
 
     async for user in UserBotSettings.objects.all().aiterator():
-        # 2. если у контента есть session
-        if content_obj.selected_session_id is not None:
+
+        if content_obj.is_session_select_message:
+            user_ids.add(user.telegram_id)
+
+        elif content_obj.selected_session_id:
             if user.selected_session_id == content_obj.selected_session_id:
                 user_ids.add(user.telegram_id)
 
-        # 3. если у контента НЕТ session — всем
         else:
             user_ids.add(user.telegram_id)
 
