@@ -33,7 +33,18 @@ class ContentAdmin(admin.ModelAdmin):
     
     def image_preview(self, obj):
         if obj.image:
-            return format_html('<img src="{}" style="max-height: 200px;"/>', obj.image.url)
+            return format_html(
+                '''
+                <img src="{}"
+                    style="
+                        width:150px;
+                        height:150px;
+                        object-fit:cover;
+                        border-radius:50%;
+                    "/>
+                ''',
+                obj.image.url
+            )
         return "Нет изображения"
     image_preview.short_description = "Превью"
     
