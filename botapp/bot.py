@@ -31,9 +31,6 @@ user_storage = {}
 # Кэш для хранения информации об отправленных сообщениях
 last_content_tracker = {}
 last_content_lock = asyncio.Lock()
-sent_content_cache = {}
-cache_lock = asyncio.Lock()
-sent_content_tracker = {}
 
 async def cleanup_tracker():
     """Очистка трекера от старых записей"""
@@ -200,13 +197,6 @@ def get_change_session_keyboard(content_obj, language="ru"):
     ])
 
 async def send_content_to_user(application, content, user_id):
-    """Отправляет контент одному пользователю с проверкой дублирования"""
-    async with cache_lock:
-        cache_key = (content['id'], user_id)
-        if cache_key in sent_content_cache:
-            print(f"Content {content['id']} already sent to user {user_id}")
-            return True
-        sent_content_cache[cache_key] = datetime.now()
     
     try:
         settings = await get_or_create_user_settings(user_id)
@@ -278,8 +268,6 @@ async def send_content_to_user(application, content, user_id):
         return True
     except Exception as e:
         print(f"Failed to send to user {user_id}: {str(e)}")
-        async with cache_lock:
-            sent_content_cache.pop(cache_key, None)
         return False
 
 async def send_text_message(application, content, user_id, message):
@@ -366,6 +354,7 @@ async def get_content_to_send():
     current_minute = now.minute
     
     contents = []
+    
     async for content in Content.objects.filter(
         send_time__date=current_date,
         send_time__hour=current_hour,
@@ -398,15 +387,8 @@ async def content_scheduler(application):
             contents_to_send = await get_content_to_send()
             
             for content in contents_to_send:
-                content_key = f"{content['id']}_{content['time'].date()}_{content['time'].hour}_{content['time'].minute}"
-                
-                if content_key not in sent_content_tracker:
-                    print(f"Sending content ID {content['id']} at {content['time'].hour:02d}:{content['time'].minute:02d}")
-                    sent_content_tracker[content_key] = datetime.now()
-                    await send_content_to_all_users(application, content)
-                else:
-                    print(f"Content ID {content['id']} already sent at this time")
-            
+                await send_content_to_all_users(application, content)
+
             sleep_time = 60 - datetime.now().second - datetime.now().microsecond/1000000
             await asyncio.sleep(sleep_time)
             
