@@ -119,7 +119,7 @@ async def get_sessions_keyboard(content_obj, language="ru"):
 
 async def handle_change_session(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()
+    await query.answer(cache_time=0)
 
     user_id = query.from_user.id
     content_id = query.data.split("_")[2]
@@ -137,7 +137,7 @@ async def handle_change_session(update: Update, context: ContextTypes.DEFAULT_TY
     else:
         text = "Выберите сессию:"
 
-    await query.edit_message_text(
+    await context.bot.edit_message_text(
         text=text,
         reply_markup=keyboard
     )
@@ -147,7 +147,7 @@ async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TY
     # asdasd
     print("CLICKED:", query.data)
 
-    await query.answer()
+    await query.answer(cache_time=0)
 
     try:
         user_id = query.from_user.id
@@ -173,7 +173,7 @@ async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TY
             settings.language
         )
 
-        await query.edit_message_text(
+        await context.bot.edit_message_text(
             f"✅ {session.title}",
             reply_markup=keyboard
         )
@@ -199,7 +199,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def language_selection(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
 
-    await query.answer()  # 1️⃣ мгновенно закрываем "Loading..."
+    await query.answer(cache_time=0)  # 1️⃣ мгновенно закрываем "Loading..."
 
     user_id = query.from_user.id
     language = query.data.split('_')[1]
@@ -218,7 +218,11 @@ async def language_selection(update: Update, context: ContextTypes.DEFAULT_TYPE)
         message = "✅ Great! Interface language switched to English 🇬🇧"
 
     # 4️⃣ UI update
-    await query.edit_message_text(text=message)
+    await context.bot.edit_message_text(
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        text=message
+    )
 
 def get_change_session_keyboard(content_obj, language="ru"):
     if language == "kz":
@@ -509,7 +513,7 @@ async def handle_feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_inline_feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()
+    await query.answer(cache_time=0)
 
     user_id = query.from_user.id
     data = query.data
@@ -522,13 +526,13 @@ async def handle_inline_feedback(update: Update, context: ContextTypes.DEFAULT_T
         last_content_id = last_content_data['content_id'] if last_content_data else None
 
     if not last_content_id:
-        await query.edit_message_text("Контент для отзыва не найден")
+        await context.bot.edit_message_text("Контент для отзыва не найден")
         return
 
     try:
         content = await Content.objects.aget(content_id=last_content_id)
     except Content.DoesNotExist:
-        await query.edit_message_text("Контент не найден")
+        await context.bot.edit_message_text("Контент не найден")
         return
 
     is_positive = data == "feedback_positive"
