@@ -93,30 +93,35 @@ async def get_sessions_keyboard(content_obj, language="ru"):
 
     return InlineKeyboardMarkup(keyboard)
 
-async def handle_change_session(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
 
     user_id = query.from_user.id
-    content_id = query.data.split("_")[2]
+    
+    # Достаем оба ID из callback_data (например: "session_5_12")
+    parts = query.data.split("_")
+    session_id = int(parts[1])
+    content_id = parts[2] # <-- Получаем точный content_id
 
     settings = await get_or_create_user_settings(user_id)
+    session = await Sessions.objects.aget(id=session_id)
 
-    content_obj = await Content.objects.filter(
-        selected_sessions__id=session.id
-    ).afirst()
+    settings.selected_session = session
+    await settings.asave()
 
-    keyboard = await get_sessions_keyboard(content_obj, settings.language)
+    # Теперь мы не угадываем через .afirst(), а берем ТОТ САМЫЙ контент
+    try:
+        content_obj = await Content.objects.aget(content_id=content_id)
+    except Content.DoesNotExist:
+        await query.edit_message_text(f"✅ {session.title}\n\n⚠️ Контент не найден.")
+        return
 
-    if settings.language == "kz":
-        text = "Сессияны таңдаңыз:"
-    elif settings.language == "en":
-        text = "Choose a session:"
-    else:
-        text = "Выберите сессию:"
+    # Создаем клавиатуру с правильным content_id
+    keyboard = get_change_session_keyboard(content_obj, settings.language)
 
     await query.edit_message_text(
-        text=text,
+        f"✅ {session.title}",
         reply_markup=keyboard
     )
 
