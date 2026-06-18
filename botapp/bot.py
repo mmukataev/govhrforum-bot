@@ -102,11 +102,57 @@ async def handle_change_session(update: Update, context: ContextTypes.DEFAULT_TY
 
     settings = await get_or_create_user_settings(user_id)
 
+    # 1. Получаем исходный контент, из которого нажали кнопку
     content_obj = await Content.objects.aget(content_id=content_id)
 
-    # keyboard = await get_sessions_keyboard(content_obj, settings.language)
-    keyboard = get_change_session_keyboard(content_obj, settings.language)
+    # 2. Собираем ID сессий, которые привязаны к этому исходному контенту
+    current_session_ids = [s.id async for s in content_obj.selected_sessions.all()]
 
+    # 3. Ищем «мастер-контент», который объединяет эти сессии
+    master_content = await Content.objects.filter(
+        is_session_select_message=True,
+        selected_sessions__id__in=current_session_ids
+    ).afirst()
+
+    # 4. Собираем пул всех сессий (из текущего + из мастер-контента) без дубликатов
+    sessions_to_show = []
+    seen_ids = set()
+
+    # Сначала добавляем сессии текущего объекта
+    async for session in content_obj.selected_sessions.all():
+        if session.id not in seen_ids:
+            sessions_to_show.append(session)
+            seen_ids.add(session.id)
+
+    # Если мастер-контент найден, докидываем все остальные сессии, которые в нем указаны
+    if master_content:
+        async for session in master_content.selected_sessions.all():
+            if session.id not in seen_ids:
+                sessions_to_show.append(session)
+                seen_ids.add(session.id)
+
+    # 5. Строим клавиатуру на основе собранного пула сессий
+    keyboard_buttons = []
+    for session in sessions_to_show:
+        # Локализация названия сессии
+        session_title = session.title
+        if settings.language == "kz" and hasattr(session, "title_kz") and session.title_kz:
+            session_title = session.title_kz
+        elif settings.language == "en" and hasattr(session, "title_en") and session.title_en:
+            session_title = session.title_en
+
+        # ВАЖНО: callback_data ведет на handle_session_select, 
+        # но передает исходный content_obj.content_id, чтобы обновить именно нужный пост!
+        keyboard_buttons.append([
+            InlineKeyboardButton(
+                text=session_title, 
+                callback_data=f"session_{session.id}_{content_obj.content_id}"
+            )
+        ])
+    
+    keyboard = InlineKeyboardMarkup(keyboard_buttons)
+
+    # 6. Текст в зависимости от языка
     if settings.language == "kz":
         text = "Сессияны таңдаңыз:"
     elif settings.language == "en":
