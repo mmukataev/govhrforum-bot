@@ -25,24 +25,48 @@ from telegram.ext import (
     CallbackQueryHandler,
 )
 
-# Хранилище пользователей в памяти
-user_storage = {}
+scheduler_task = None
+cleanup_task = None
 
 # Кэш для хранения информации об отправленных сообщениях
 last_content_tracker = {}
 last_content_lock = asyncio.Lock()
 
+async def post_init(application):
+    global scheduler_task, cleanup_task
+
+    scheduler_task = asyncio.create_task(content_scheduler(application))
+    cleanup_task = asyncio.create_task(cleanup_tracker())
+
+async def post_shutdown(application):
+    global scheduler_task, cleanup_task
+
+    for task in [scheduler_task, cleanup_task]:
+        if task:
+            task.cancel()
+            try:
+                await task
+            except asyncio.CancelledError:
+                pass
+
 async def cleanup_tracker():
     """Очистка трекера от старых записей"""
-    while True:
-        await asyncio.sleep(3600)  # Очищаем каждый час
-        now = timezone.localtime(timezone.now())
-        async with last_content_lock:
-            # Удаляем записи старше 7 дней
-            to_delete = [k for k, v in last_content_tracker.items() 
-                        if (now - v['timestamp']).days > 7]
-            for k in to_delete:
-                last_content_tracker.pop(k, None)
+    try:
+        while True:
+            await asyncio.sleep(3600)
+
+            now = timezone.localtime(timezone.now())
+            async with last_content_lock:
+                to_delete = [
+                    k for k, v in last_content_tracker.items()
+                    if (now - v['timestamp']).days > 7
+                ]
+                for k in to_delete:
+                    last_content_tracker.pop(k, None)
+
+    except asyncio.CancelledError:
+        print("cleanup_tracker cancelled")
+        return
 
 def get_language_keyboard():
     keyboard = [
@@ -95,7 +119,7 @@ async def get_sessions_keyboard(content_obj, language="ru"):
 
 async def handle_change_session(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()
+    await query.answer(cache_time=0)
 
     user_id = query.from_user.id
     content_id = query.data.split("_")[2]
@@ -113,38 +137,53 @@ async def handle_change_session(update: Update, context: ContextTypes.DEFAULT_TY
     else:
         text = "Выберите сессию:"
 
-    await query.edit_message_text(
+    await context.bot.edit_message_text(
         text=text,
         reply_markup=keyboard
     )
 
 async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()
+    # asdasd
+    print("CLICKED:", query.data)
 
-    user_id = query.from_user.id
-    session_id = int(query.data.split("_")[1])
+    await query.answer(cache_time=0)
 
-    settings = await get_or_create_user_settings(user_id)
+    try:
+        user_id = query.from_user.id
+        session_id = int(query.data.split("_")[1])
 
-    session = await Sessions.objects.aget(id=session_id)
+        settings = await get_or_create_user_settings(user_id)
 
-    settings.selected_session = session
-    await settings.asave()
+        session = await Sessions.objects.aget(id=session_id)
 
-    # await query.edit_message_text(
-    #     f"✅{session.title}"
-    # )
-    content_obj = await Content.objects.aget(
-        selected_sessions__id=session.id
-    )
+        settings.selected_session = session
+        await settings.asave()
 
-    keyboard = get_change_session_keyboard(content_obj, settings.language)
+        print("SESSION SAVED:", session.id)
 
-    await query.edit_message_text(
-        f"✅ {session.title}",
-        reply_markup=keyboard
-    )
+        content_obj = await Content.objects.aget(
+            selected_sessions__id=session.id
+        )
+
+        print("CONTENT FOUND:", content_obj.content_id)
+
+        keyboard = get_change_session_keyboard(
+            content_obj,
+            settings.language
+        )
+
+        await context.bot.edit_message_text(
+            f"✅ {session.title}",
+            reply_markup=keyboard
+        )
+
+        print("MESSAGE UPDATED")
+
+    except Exception as e:
+        print("SESSION SELECT ERROR:", str(e))
+        import traceback
+        traceback.print_exc()
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
@@ -159,17 +198,18 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def language_selection(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()
+
+    await query.answer(cache_time=0)  # 1️⃣ мгновенно закрываем "Loading..."
 
     user_id = query.from_user.id
     language = query.data.split('_')[1]
 
-    # Сохраняем язык пользователя в базе данных
+    # 2️⃣ DB операция
     settings = await get_or_create_user_settings(user_id)
     settings.language = language
     await settings.asave()
 
-    # Получаем обновленные настройки для сообщения
+    # 3️⃣ текст
     if language == "ru":
         message = "✅ Отлично! Язык интерфейса переключен на русский 🇷🇺"
     elif language == "kz":
@@ -177,7 +217,12 @@ async def language_selection(update: Update, context: ContextTypes.DEFAULT_TYPE)
     else:
         message = "✅ Great! Interface language switched to English 🇬🇧"
 
-    await query.edit_message_text(text=message)
+    # 4️⃣ UI update
+    await context.bot.edit_message_text(
+        chat_id=query.message.chat_id,
+        message_id=query.message.message_id,
+        text=message
+    )
 
 def get_change_session_keyboard(content_obj, language="ru"):
     if language == "kz":
@@ -292,32 +337,6 @@ async def send_text_message(application, content, user_id, message):
             parse_mode="HTML"
         )
 
-
-
-# async def send_content_to_all_users(application, content):
-#     """Отправляет контент всем пользователям"""
-#     now = timezone.localtime(timezone.now())
-#     print(f"\n=== Processing content ID {content['id']} ===")
-    
-#     # Получаем всех пользователей из базы данных
-#     user_ids = []
-#     async for settings in UserBotSettings.objects.all().aiterator():
-#         user_ids.append(settings.telegram_id)
-
-    
-#     print(f"Found {len(user_ids)} users")
-    
-#     success_count = 0
-#     fail_count = 0
-    
-#     for user_id in user_ids:
-#         result = await send_content_to_user(application, content, user_id)
-#         if result:
-#             success_count += 1
-#         else:
-#             fail_count += 1
-    
-#     print(f"Send results: {success_count} success, {fail_count} failed")
 async def send_content_to_all_users(application, content):
     content_obj = await Content.objects.select_related(
         "selected_session"
@@ -377,24 +396,21 @@ async def get_content_to_send():
     return contents
 
 async def content_scheduler(application):
-    """Планировщик, который проверяет контент для отправки"""
     print("Optimized content scheduler started")
-    
-    asyncio.create_task(cleanup_tracker())
-    
-    while True:
-        try:
+
+    try:
+        while True:
             contents_to_send = await get_content_to_send()
-            
+
             for content in contents_to_send:
                 await send_content_to_all_users(application, content)
 
-            sleep_time = 60 - datetime.now().second - datetime.now().microsecond/1000000
-            await asyncio.sleep(sleep_time)
-            
-        except Exception as e:
-            print(f"Scheduler error: {str(e)}")
-            await asyncio.sleep(60)
+            sleep_time = 60 - datetime.now().second - datetime.now().microsecond / 1_000_000
+            await asyncio.sleep(max(1, sleep_time))
+
+    except asyncio.CancelledError:
+        print("content_scheduler cancelled")
+        return
 
 async def handle_feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
@@ -497,7 +513,7 @@ async def handle_feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_inline_feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()
+    await query.answer(cache_time=0)
 
     user_id = query.from_user.id
     data = query.data
@@ -510,13 +526,13 @@ async def handle_inline_feedback(update: Update, context: ContextTypes.DEFAULT_T
         last_content_id = last_content_data['content_id'] if last_content_data else None
 
     if not last_content_id:
-        await query.edit_message_text("Контент для отзыва не найден")
+        await context.bot.edit_message_text("Контент для отзыва не найден")
         return
 
     try:
         content = await Content.objects.aget(content_id=last_content_id)
     except Content.DoesNotExist:
-        await query.edit_message_text("Контент не найден")
+        await context.bot.edit_message_text("Контент не найден")
         return
 
     is_positive = data == "feedback_positive"
@@ -537,9 +553,14 @@ async def handle_inline_feedback(update: Update, context: ContextTypes.DEFAULT_T
     await query.edit_message_reply_markup(reply_markup=None)  # удаляем кнопки
     await context.bot.send_message(chat_id=query.message.chat_id, text=question)
 
+
 def main():
+    print("ААА") 
     # application = ApplicationBuilder().token("7606408596:AAHr_-mSFqscilp_-SHQxqioRXOrpYe9Sf0").build()
     application = ApplicationBuilder().token("8719461132:AAEYzs2wk2IwxwexuMPYlnuuBFc3RaMuetM").build()
+    
+    application.post_init = post_init
+    application.post_shutdown = post_shutdown
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(handle_session_select, pattern="^session_"))
@@ -550,16 +571,7 @@ def main():
         CallbackQueryHandler(handle_change_session, pattern="^change_session_")
     )
 
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-
-    try:
-        loop.create_task(content_scheduler(application))
-        application.run_polling()
-    except KeyboardInterrupt:
-        print("Bot stopped by user")
-    finally:
-        loop.close()
+    application.run_polling()
 
 if __name__ == "__main__":
     main()
