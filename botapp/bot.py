@@ -307,32 +307,6 @@ async def send_text_message(application, content, user_id, message):
             parse_mode="HTML"
         )
 
-
-
-# async def send_content_to_all_users(application, content):
-#     """Отправляет контент всем пользователям"""
-#     now = timezone.localtime(timezone.now())
-#     print(f"\n=== Processing content ID {content['id']} ===")
-    
-#     # Получаем всех пользователей из базы данных
-#     user_ids = []
-#     async for settings in UserBotSettings.objects.all().aiterator():
-#         user_ids.append(settings.telegram_id)
-
-    
-#     print(f"Found {len(user_ids)} users")
-    
-#     success_count = 0
-#     fail_count = 0
-    
-#     for user_id in user_ids:
-#         result = await send_content_to_user(application, content, user_id)
-#         if result:
-#             success_count += 1
-#         else:
-#             fail_count += 1
-    
-#     print(f"Send results: {success_count} success, {fail_count} failed")
 async def send_content_to_all_users(application, content):
     content_obj = await Content.objects.select_related(
         "selected_session"
