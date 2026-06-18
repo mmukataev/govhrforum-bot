@@ -25,9 +25,29 @@ from telegram.ext import (
     CallbackQueryHandler,
 )
 
+scheduler_task = None
+cleanup_task = None
+
 # Кэш для хранения информации об отправленных сообщениях
 last_content_tracker = {}
 last_content_lock = asyncio.Lock()
+
+async def post_init(application):
+    global scheduler_task, cleanup_task
+
+    scheduler_task = asyncio.create_task(content_scheduler(application))
+    cleanup_task = asyncio.create_task(cleanup_tracker())
+
+async def post_shutdown(application):
+    global scheduler_task, cleanup_task
+
+    for task in [scheduler_task, cleanup_task]:
+        if task:
+            task.cancel()
+            try:
+                await task
+            except asyncio.CancelledError:
+                pass
 
 async def cleanup_tracker():
     """Очистка трекера от старых записей"""
@@ -528,6 +548,9 @@ def main():
     print("ААА") 
     # application = ApplicationBuilder().token("7606408596:AAHr_-mSFqscilp_-SHQxqioRXOrpYe9Sf0").build()
     application = ApplicationBuilder().token("8904957569:AAEvSVLno_2Qje82SNpLdt2hCXXKFKz1FEY").build()
+    
+    application.post_init = post_init
+    application.post_shutdown = post_shutdown
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(handle_session_select, pattern="^session_"))
@@ -538,16 +561,7 @@ def main():
         CallbackQueryHandler(handle_change_session, pattern="^change_session_")
     )
 
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-
-    try:
-        loop.create_task(content_scheduler(application))
-        application.run_polling()
-    except KeyboardInterrupt:
-        print("Bot stopped by user")
-    finally:
-        loop.close()
+    application.run_polling()
 
 if __name__ == "__main__":
     main()
