@@ -25,9 +25,6 @@ from telegram.ext import (
     CallbackQueryHandler,
 )
 
-# Хранилище пользователей в памяти
-user_storage = {}
-
 # Кэш для хранения информации об отправленных сообщениях
 last_content_tracker = {}
 last_content_lock = asyncio.Lock()
