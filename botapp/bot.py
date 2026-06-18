@@ -51,15 +51,22 @@ async def post_shutdown(application):
 
 async def cleanup_tracker():
     """Очистка трекера от старых записей"""
-    while True:
-        await asyncio.sleep(3600)  # Очищаем каждый час
-        now = timezone.localtime(timezone.now())
-        async with last_content_lock:
-            # Удаляем записи старше 7 дней
-            to_delete = [k for k, v in last_content_tracker.items() 
-                        if (now - v['timestamp']).days > 7]
-            for k in to_delete:
-                last_content_tracker.pop(k, None)
+    try:
+        while True:
+            await asyncio.sleep(3600)
+
+            now = timezone.localtime(timezone.now())
+            async with last_content_lock:
+                to_delete = [
+                    k for k, v in last_content_tracker.items()
+                    if (now - v['timestamp']).days > 7
+                ]
+                for k in to_delete:
+                    last_content_tracker.pop(k, None)
+
+    except asyncio.CancelledError:
+        print("cleanup_tracker cancelled")
+        return
 
 def get_language_keyboard():
     keyboard = [
@@ -383,24 +390,21 @@ async def get_content_to_send():
     return contents
 
 async def content_scheduler(application):
-    """Планировщик, который проверяет контент для отправки"""
     print("Optimized content scheduler started")
-    
-    asyncio.create_task(cleanup_tracker())
-    
-    while True:
-        try:
+
+    try:
+        while True:
             contents_to_send = await get_content_to_send()
-            
+
             for content in contents_to_send:
                 await send_content_to_all_users(application, content)
 
-            sleep_time = 60 - datetime.now().second - datetime.now().microsecond/1000000
-            await asyncio.sleep(sleep_time)
-            
-        except Exception as e:
-            print(f"Scheduler error: {str(e)}")
-            await asyncio.sleep(60)
+            sleep_time = 60 - datetime.now().second - datetime.now().microsecond / 1_000_000
+            await asyncio.sleep(max(1, sleep_time))
+
+    except asyncio.CancelledError:
+        print("content_scheduler cancelled")
+        return
 
 async def handle_feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
