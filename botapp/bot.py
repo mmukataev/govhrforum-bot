@@ -123,11 +123,19 @@ async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TY
     await query.answer()
 
     user_id = query.from_user.id
-    
-    # Достаем оба ID из callback_data (например: "session_5_12")
     parts = query.data.split("_")
+    
     session_id = int(parts[1])
-    content_id = parts[2] # <-- Получаем точный content_id
+
+    # Безопасное извлечение content_id
+    if len(parts) >= 3:
+        content_id = parts[2]
+    else:
+        # Если пользователь нажал на старую кнопку (в которой нет content_id)
+        await query.edit_message_text(
+            "⚠️ Эта кнопка устарела. Пожалуйста, вызовите меню заново."
+        )
+        return
 
     settings = await get_or_create_user_settings(user_id)
     session = await Sessions.objects.aget(id=session_id)
@@ -135,7 +143,6 @@ async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TY
     settings.selected_session = session
     await settings.asave()
 
-    # Теперь мы не угадываем через .afirst(), а берем ТОТ САМЫЙ контент
     try:
         content_obj = await Content.objects.aget(content_id=content_id)
     except Content.DoesNotExist:
