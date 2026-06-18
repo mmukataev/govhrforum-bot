@@ -120,7 +120,7 @@ async def handle_change_session(update: Update, context: ContextTypes.DEFAULT_TY
 
 async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-
+    # asdasd
     print("CLICKED:", query.data)
 
     await query.answer()
