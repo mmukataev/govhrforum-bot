@@ -123,19 +123,7 @@ async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TY
     await query.answer()
 
     user_id = query.from_user.id
-    parts = query.data.split("_")
-    
-    session_id = int(parts[1])
-
-    # Безопасное извлечение content_id
-    if len(parts) >= 3:
-        content_id = parts[2]
-    else:
-        # Если пользователь нажал на старую кнопку (в которой нет content_id)
-        await query.edit_message_text(
-            "⚠️ Эта кнопка устарела. Пожалуйста, вызовите меню заново."
-        )
-        return
+    session_id = int(query.data.split("_")[1])
 
     settings = await get_or_create_user_settings(user_id)
     session = await Sessions.objects.aget(id=session_id)
@@ -143,13 +131,19 @@ async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TY
     settings.selected_session = session
     await settings.asave()
 
-    try:
-        content_obj = await Content.objects.aget(content_id=content_id)
-    except Content.DoesNotExist:
-        await query.edit_message_text(f"✅ {session.title}\n\n⚠️ Контент не найден.")
+    # ИСправленная часть: используем .filter().afirst() вместо .aget()
+    # Это защитит код от падения при ошибках MultipleObjectsReturned и DoesNotExist
+    content_obj = await Content.objects.filter(
+        selected_sessions__id=session.id
+    ).afirst()
+
+    # Проверяем, нашелся ли контент
+    if not content_obj:
+        # Если контент не привязан, выводим сообщение без кнопки, чтобы бот не "зависал"
+        await query.edit_message_text(f"✅ {session.title}\n\n⚠️ Контент для этой сессии не найден.")
         return
 
-    # Создаем клавиатуру с правильным content_id
+    # Если контент найден, смело создаем клавиатуру
     keyboard = get_change_session_keyboard(content_obj, settings.language)
 
     await query.edit_message_text(
