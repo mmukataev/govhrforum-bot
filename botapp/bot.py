@@ -162,9 +162,14 @@ async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TY
 
         print("SESSION SAVED:", session.id)
 
-        content_obj = await Content.objects.aget.first(
+        content_obj = await Content.objects.filter(
             selected_sessions__id=session.id
-        )
+        ).afirst()
+
+        if not content_obj:
+            print("CONTENT NOT FOUND")
+            # Здесь можно добавить логику ответа пользователю, если контент не найден
+            return
 
         print("CONTENT FOUND:", content_obj.content_id)
 
