@@ -526,7 +526,9 @@ async def handle_inline_feedback(update: Update, context: ContextTypes.DEFAULT_T
     await query.edit_message_reply_markup(reply_markup=None)  # удаляем кнопки
     await context.bot.send_message(chat_id=query.message.chat_id, text=question)
 
+
 def main():
+    print("ААА") 
     # application = ApplicationBuilder().token("7606408596:AAHr_-mSFqscilp_-SHQxqioRXOrpYe9Sf0").build()
     application = ApplicationBuilder().token("8904957569:AAEvSVLno_2Qje82SNpLdt2hCXXKFKz1FEY").build()
 
