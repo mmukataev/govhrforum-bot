@@ -120,31 +120,46 @@ async def handle_change_session(update: Update, context: ContextTypes.DEFAULT_TY
 
 async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
+
+    print("CLICKED:", query.data)
+
     await query.answer()
 
-    user_id = query.from_user.id
-    session_id = int(query.data.split("_")[1])
+    try:
+        user_id = query.from_user.id
+        session_id = int(query.data.split("_")[1])
 
-    settings = await get_or_create_user_settings(user_id)
+        settings = await get_or_create_user_settings(user_id)
 
-    session = await Sessions.objects.aget(id=session_id)
+        session = await Sessions.objects.aget(id=session_id)
 
-    settings.selected_session = session
-    await settings.asave()
+        settings.selected_session = session
+        await settings.asave()
 
-    # await query.edit_message_text(
-    #     f"✅{session.title}"
-    # )
-    content_obj = await Content.objects.aget(
-        selected_sessions__id=session.id
-    )
+        print("SESSION SAVED:", session.id)
 
-    keyboard = get_change_session_keyboard(content_obj, settings.language)
+        content_obj = await Content.objects.aget(
+            selected_sessions__id=session.id
+        )
 
-    await query.edit_message_text(
-        f"✅ {session.title}",
-        reply_markup=keyboard
-    )
+        print("CONTENT FOUND:", content_obj.content_id)
+
+        keyboard = get_change_session_keyboard(
+            content_obj,
+            settings.language
+        )
+
+        await query.edit_message_text(
+            f"✅ {session.title}",
+            reply_markup=keyboard
+        )
+
+        print("MESSAGE UPDATED")
+
+    except Exception as e:
+        print("SESSION SELECT ERROR:", str(e))
+        import traceback
+        traceback.print_exc()
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
