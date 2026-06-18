@@ -102,7 +102,9 @@ async def handle_change_session(update: Update, context: ContextTypes.DEFAULT_TY
 
     settings = await get_or_create_user_settings(user_id)
 
-    content_obj = await Content.objects.aget(content_id=content_id)
+    content_obj = await Content.objects.filter(
+        selected_sessions__id=session.id
+    ).afirst()
 
     keyboard = await get_sessions_keyboard(content_obj, settings.language)
 
