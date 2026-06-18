@@ -198,17 +198,18 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def language_selection(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()
+
+    await query.answer()  # 1️⃣ мгновенно закрываем "Loading..."
 
     user_id = query.from_user.id
     language = query.data.split('_')[1]
 
-    # Сохраняем язык пользователя в базе данных
+    # 2️⃣ DB операция
     settings = await get_or_create_user_settings(user_id)
     settings.language = language
     await settings.asave()
 
-    # Получаем обновленные настройки для сообщения
+    # 3️⃣ текст
     if language == "ru":
         message = "✅ Отлично! Язык интерфейса переключен на русский 🇷🇺"
     elif language == "kz":
@@ -216,6 +217,7 @@ async def language_selection(update: Update, context: ContextTypes.DEFAULT_TYPE)
     else:
         message = "✅ Great! Interface language switched to English 🇬🇧"
 
+    # 4️⃣ UI update
     await query.edit_message_text(text=message)
 
 def get_change_session_keyboard(content_obj, language="ru"):
