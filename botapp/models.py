@@ -31,7 +31,7 @@ class UserBotSettings(models.Model):
         ('ru', 'Русский'),
         ('kz', 'Қазақша'),
         ('en', 'English')
-    ], default='ru')
+    ], default='en')
     last_interaction = models.DateTimeField(auto_now=True)
 
     class Meta:
