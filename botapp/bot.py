@@ -162,7 +162,7 @@ async def handle_session_select(update: Update, context: ContextTypes.DEFAULT_TY
 
         print("SESSION SAVED:", session.id)
 
-        content_obj = await Content.objects.aget(
+        content_obj = await Content.objects.aget.first(
             selected_sessions__id=session.id
         )
 
