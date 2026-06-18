@@ -104,7 +104,8 @@ async def handle_change_session(update: Update, context: ContextTypes.DEFAULT_TY
 
     content_obj = await Content.objects.aget(content_id=content_id)
 
-    keyboard = await get_sessions_keyboard(content_obj, settings.language)
+    # keyboard = await get_sessions_keyboard(content_obj, settings.language)
+    keyboard = get_change_session_keyboard(content_obj, settings.language)
 
     if settings.language == "kz":
         text = "Сессияны таңдаңыз:"
